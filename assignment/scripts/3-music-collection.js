@@ -17,6 +17,16 @@ function showCollection(array) {
     }
 }//end showCollection
 
+function findByArtist(artist) {
+    let artistArray = [];
+    for (item in collection) {
+        if (collection[item].artist === artist) {
+            artistArray.push(collection[item]);
+        }
+    }
+    return artistArray;
+}//end findByArtist
+
 console.log("Adding an album to my collection:", addToCollection("Hybrid Theory", "Linkin Park", 2000));
 console.log("Adding an album to my collection:", addToCollection("Meteora", "Linkin Park", 2003));
 console.log("Adding an album to my collection:", addToCollection("Mansion", "NF", 2015));
@@ -26,3 +36,7 @@ console.log("Adding an album to my collection:", addToCollection("Blink-182", "B
 console.log("Here is my updated collection:", collection);
 
 showCollection(collection);
+console.log(" Testing findByArtist Function:", findByArtist("Linkin Park"));
+console.log(" Testing findByArtist Function:", findByArtist("NF"));
+console.log(" Testing findByArtist Function:", findByArtist("Elvis"));
+
