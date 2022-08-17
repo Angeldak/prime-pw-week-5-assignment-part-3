@@ -21,16 +21,20 @@ function findByArtist(artist) {
     return artistArray;
 }//end findByArtist
 
+//searching track names: collection[0].arrayTracks[0].includes("Papercut") === true
 function search(object = {}) {
     let results = [];
+    let counter;
     if (Object.values(object).length === 0) {
         return collection;
     } else {
-        for (let i = 0; i < collection.length; i++) {
-            for (let j = 0; j < Object.keys(object).length; j++) {
-                if (collection[i][Object.keys(object)[j]] === object[Object.keys(object)[j]] &&
-                    collection[i][Object.keys(object)[j + 1]] === object[Object.keys(object)[j + 1]] &&
-                    collection[i][Object.keys(object)[j + 1]] !== undefined) {
+        for (let i = 0; i < Object.keys(collection).length; i++) {
+            counter = 0;
+            for (key in object) {
+                if (collection[i][key] === object[key]) {
+                    counter++;
+                }
+                if (counter === Object.keys(object).length) {
                     results.push(collection[i]);
                 }
             }
@@ -61,9 +65,9 @@ console.log("Adding an album to my collection:", addToCollection("Blink-182", "B
 console.log("Here is my updated collection:", collection);
 
 showCollection(collection);
-console.log("Testing findByArtist Function:", findByArtist("Linkin Park"));
-console.log("Testing findByArtist Function:", findByArtist("NF"));
-console.log("Testing findByArtist Function:", findByArtist("Elvis"));
+console.log("Testing findByArtist Function w/ Linkin Park:", findByArtist("Linkin Park"));
+console.log("Testing findByArtist Function w/ NF:", findByArtist("NF"));
+console.log("Testing findByArtist Function w/ Elvis:", findByArtist("Elvis"));
 
 
 //Stretch Goal number one
@@ -84,13 +88,19 @@ const testObject4 = {
     yearPublished: 2015,
     albumTitle: "Mansion"
 }
+const testObject5 = {
+    artist: "Linkin Park",
+    yearPublished: 2000,
+    arrayTracks: "Papercut"
+}
 
 console.log("Testing search with empty Obj:", search({}));
 console.log("Testing search with no arg:", search());
 console.log("Testing with LP 2003 Obj:", search(testObject));
 console.log("Testing with Elvis 1955 Obj:", search(testObject2));
 console.log("Testing with NF 2017 Obj:", search(testObject3));
-console.log("NOT WORKING - Testing with NF 2015 Mansion Obj:", search(testObject4));  //Does not work with additional arguments - Need to refactor
+console.log("Testing with NF 2015 Mansion Obj:", search(testObject4));
+console.log("Testing with LP 2000 Papercut Obj:", search(testObject5));
 
 
 // Add an array of tracks to your album objects. Each track should have a name and duration. You will need to update the functions to support this new property:
