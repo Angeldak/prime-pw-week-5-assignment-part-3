@@ -40,9 +40,15 @@ function search(object = {}) {
 }//end search
 
 function showCollection(array) {
+    let counter;
     console.log(`There are ${array.length} albums in this array:`);
     for (item in array) {
+        counter = 1;
         console.log(`${array[item].albumTitle} by ${array[item].artist}, published in ${array[item].yearPublished}`)
+        for (items in array[item].arrayTracks) {
+            console.log(`${counter}. ${array[item].arrayTracks[items]}`);
+            counter++;
+        }
     }
 }//end showCollection
 
@@ -91,4 +97,4 @@ console.log("NOT WORKING - Testing with NF 2015 Mansion Obj:", search(testObject
 
 // DONE Update the addToCollection function to also take an input parameter for the array of tracks.
 // Update search to allow a trackName search criteria.
-// Update the showCollection function to display the list of tracks for each album with its name and duration.
+// DONE Update the showCollection function to display the list of tracks for each album with its name and duration.
