@@ -1,32 +1,41 @@
 console.log('***** Music Collection *****')
 let collection = [];
 
-function addToCollection(title, artist, yearPublished, /**/) { //Enter unlimited args for "Track Name", "Duration" after year
-    let args = Array.from(arguments);
-    let remainingArgs = args.slice(3, args.length);
+function addToCollection(title, artist, yearPublished, /**/) { //Enter unlimited args as "Track Name", "Duration"-- after yearPublished
+    let args = Array.from(arguments);  //Setting args to array of all arguments
+    let remainingArgs = args.slice(3, args.length);  //Removing title, artist, yearPublished from args
     const obj = {};  //Initiate object for push
     obj.albumTitle = title;  //Assigning arguments to object keys
     obj.artist = artist;
     obj.yearPublished = yearPublished;
     obj.arrayTracks = [];
-    for (let i = 0; i < remainingArgs.length; i++) {
-        if (i % 2 === 0) {
-            obj.arrayTracks.push({ arrayTrack: remainingArgs[i] });
+    for (let i = 0; i < remainingArgs.length; i++) {  //Creating array of objects with all track and durations
+        if (i % 2 === 0) {  //Check if index is even (Track name) or off (Duration)
+            obj.arrayTracks.push({ arrayTrack: remainingArgs[i] });  //If even put to array with track name to start object
         } else {
-            obj.arrayTracks[obj.arrayTracks.length - 1].trackDuration = remainingArgs[i];
+            obj.arrayTracks[obj.arrayTracks.length - 1].trackDuration = remainingArgs[i];  //If odd add the duration to the previous array item
         }
     };
     collection.push(obj);  //Adding object to collection
     return obj;
 }//end addToCollection
 
+//ORIGINAL WORKING FINDBYARTIST - REFACTORED BELOW
+// function findByArtist(artist) {
+//     let artistArray = [];  //Initiating array for return
+//     for (item in collection) {  //Begin looping over collection
+//         if (collection[item].artist === artist) {  //Checking if collection artist matches artist argument
+//             artistArray.push(collection[item]);  //Push to array for return
+//         }
+//     }
+//     return artistArray;
+// }//end findByArtist
+
 function findByArtist(artist) {
     let artistArray = [];  //Initiating array for return
-    for (item in collection) {  //Begin looping over collection
-        if (collection[item].artist === artist) {  //Checking if collection artist matches artist argument
-            artistArray.push(collection[item]);  //Push to array for return
-        }
-    }
+    artistArray = collection.filter(function (e) {
+        return e.artist === artist;
+    })
     return artistArray;
 }//end findByArtist
 
@@ -60,7 +69,26 @@ function findByArtist(artist) {
 // }//end search
 
 function search(object = {}) {
-
+    let results = [];  //Initiating Results Array
+    if (Object.keys(object).length === 0) {  //Checking if object argument is blank or not included (defaults to black)
+        return collection;
+    } else {
+        let arrayKeys = Object.keys(object);
+        results = collection.filter(function (allObj) {
+            return arrayKeys.every(function (allKeys) {
+                if (allKeys === "arrayTrack") {
+                    for (items of allObj["arrayTracks"]) {
+                        if (items["arrayTrack"].includes(object["arrayTrack"])) {
+                            return items["arrayTrack"];
+                        }
+                    }
+                } else if (allObj[allKeys] === object[allKeys]) {
+                    return allObj[allKeys];
+                };
+            });
+        });
+    };
+    return results;
 }; //end refactored search
 
 function showCollection(array) {
@@ -90,7 +118,7 @@ console.log("Testing findByArtist Function w/ NF:", findByArtist("NF"));
 console.log("Testing findByArtist Function w/ Elvis:", findByArtist("Elvis"));
 
 
-//Stretch Goal number one
+//Stretch Goal number one and two test data
 const testObject = {
     artist: "Linkin Park",
     yearPublished: 2003
@@ -111,12 +139,12 @@ const testObject4 = {
 const testObject5 = {
     artist: "Linkin Park",
     yearPublished: 2000,
-    arrayTracks: "Papercut"
+    arrayTrack: "Papercut"
 }
 const testObject6 = {
     artist: "Blink-182",
     yearPublished: 2003,
-    arrayTracks: "Small Things"
+    arrayTrack: "Small Things"
 }
 
 console.log("Testing search with empty Obj:", search({}));
