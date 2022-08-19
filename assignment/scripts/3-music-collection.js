@@ -73,13 +73,13 @@ function search(object = {}) {
     if (Object.keys(object).length === 0) {  //Checking if object argument is blank or not included (defaults to black)
         return collection;
     } else {
-        let arrayKeys = Object.keys(object);
-        results = collection.filter(function (allObj) {
-            return arrayKeys.every(function (allKeys) {
-                if (allKeys === "arrayTrack") {
-                    for (items of allObj["arrayTracks"]) {
+        let arrayKeys = Object.keys(object);  //Storing all keys from object
+        results = collection.filter(function (allObj) {  //Starting filter on entire collection
+            return arrayKeys.every(function (allKeys) {  //Starting every to check all key values from object
+                if (allKeys === "arrayTrack") {  //Checking if key is a track name
+                    for (items of allObj["arrayTracks"]) {  //Checking array of tracks
                         if (items["arrayTrack"].includes(object["arrayTrack"])) {
-                            return items["arrayTrack"];
+                            return items["arrayTrack"];  //If track matches return track
                         }
                     }
                 } else if (allObj[allKeys] === object[allKeys]) {
@@ -146,6 +146,16 @@ const testObject6 = {
     yearPublished: 2003,
     arrayTrack: "Small Things"
 }
+const testObject7 = {
+    artist: "Blink-182",
+    yearPublished: 2003,
+    arrayTrack: "Fake Song"
+}
+const testObject8 = {
+    artist: "Blink-182",
+    yearPublished: 2003,
+    arrayTrack: "Papercut"
+}
 
 console.log("Testing search with empty Obj:", search({}));
 console.log("Testing search with no arg:", search());
@@ -155,3 +165,5 @@ console.log("Testing search with NF 2017 Obj:", search(testObject3));
 console.log("Testing search with NF 2015 Mansion Obj:", search(testObject4));
 console.log("Testing search with LP 2000 Papercut Obj:", search(testObject5));
 console.log("Testing search with Blink-182 2003 Small Things Obj:", search(testObject6));
+console.log("Testing search with Blink-182 2003 Fake Song Obj:", search(testObject7));
+console.log("Testing search with Blink-182 2003 Papercut (wrong artist) Obj:", search(testObject8));
