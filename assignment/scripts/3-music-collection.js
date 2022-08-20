@@ -20,7 +20,7 @@ function addToCollection(title, artist, yearPublished, /**/) { //Enter unlimited
     return obj;
 }//end addToCollection
 
-//ORIGINAL WORKING FINDBYARTIST - REFACTORED BELOW
+//ORIGINAL WORKING FINDBYARTIST FOR HOMEWORK (Looped Over)- REFACTORED BELOW
 // function findByArtist(artist) {
 //     let artistArray = [];  //Initiating array for return
 //     for (item in collection) {  //Begin looping over collection
